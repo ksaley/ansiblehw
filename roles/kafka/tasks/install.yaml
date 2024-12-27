@@ -1,0 +1,28 @@
+- name: Install required packages
+  apt:
+    name: 
+      - openjdk-11-jdk
+      - wget
+    state: present
+
+- name: Create Kafka installation directory
+  file:
+    path: "{{ kafka_install_dir }}"
+    state: directory
+
+- name: Download Kafka archive
+  get_url:
+    url: "{{ kafka_download_url }}"
+    dest: "/tmp/kafka.tgz"
+
+- name: Extract Kafka archive
+  unarchive:
+    src: "/tmp/kafka.tgz"
+    dest: "{{ kafka_install_dir }}"
+    remote_src: yes
+
+- name: Symlink Kafka binary directory
+  file:
+    src: "{{ kafka_install_dir }}/kafka_2.12-3.7.2"
+    dest: "{{ kafka_install_dir }}/kafka"
+    state: link

@@ -1,0 +1,5 @@
+- name: Kafka Single Node Deployment
+  hosts: kafka-server
+  become: true
+  roles:
+    - kafka
